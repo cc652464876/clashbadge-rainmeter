@@ -1,0 +1,10 @@
+* text=auto
+*.ini text eol=crlf
+*.inc text eol=crlf
+*.lua text eol=lf
+*.cs text eol=crlf
+*.cmd text eol=crlf
+*.txt text eol=crlf
+*.md text eol=lf
+*.png binary
+*.exe binary

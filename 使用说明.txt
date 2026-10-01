@@ -1,0 +1,85 @@
+﻿Clash 模式桌面徽章 — 分发使用说明
+整理日期：2026-10-01
+
+一、功能和文件
+
+这是 Windows Rainmeter 皮肤，用于显示 Clash Verge Rev 的实际代理模式。
+可点击版本通过 Clash Verge 自身的模式动作切换，使徽章、Clash 界面和配置同步。
+
+ClashMode\ClashMode.ini：原始 20 像素版，仅显示模式。
+ClashMode\ClashMode20.ini：20 像素版，支持右侧点击切换。
+ClashMode\ClashMode28.ini：28 像素版，支持右侧点击切换。
+ClashMode\Badge.inc：共用外观、模式读取和颜色设置。
+ClashMode\@Resources\Click.lua：点击、手势取消、连续点击保护和状态确认。
+ClashMode\@Resources\ClashBadgeControl.exe：已编译的模式控制程序，安装后直接使用。
+ClashMode\@Resources\ClashBadgeControl.cs：控制程序的 C# 源码。
+ClashMode\@Resources\mark.png：猫图标。
+重新编译.cmd：修改 C# 源码后使用；日常安装和使用无需运行。
+
+二、使用前准备
+
+1. 安装 Rainmeter 和 Clash Verge Rev，并启动 Clash Verge Rev。
+   本次验证环境：Rainmeter 4.5.26.3894（64 位），Clash Verge Rev 2.5.6。
+   本包针对 Clash Verge Rev 的窗口和快捷键实现；其他 Clash 客户端不在适用范围内。
+2. 在 Clash Verge 的设置中启用外部控制器：
+   监听地址：127.0.0.1:9097
+   API 访问密钥：change-me
+   本包默认按以上地址和密钥读取模式。
+3. 在 Clash Verge 的快捷键设置中启用全局快捷键，并设置：
+   全局模式：Alt+1
+   直连模式：Alt+2
+   请确保这两项快捷键已注册成功，没有被其他程序占用。
+4. 建议开启 Clash Verge 的“切换模式时自动关闭连接”选项（auto_close_connection）。
+   已建立的连接也会随模式切换重新建立，方便验证实际流量是否切换。
+5. 确保订阅、节点及系统代理或 TUN 已按平时使用方式配置好。
+   此徽章只显示和切换代理模式，不负责启动 Clash、导入订阅或打开系统代理/TUN。
+
+三、安装
+
+1. 打开 Rainmeter 管理器，找到当前使用的皮肤文件夹。
+   通常为“文档\Rainmeter\Skins”；使用 OneDrive 或自定义位置时，以实际皮肤目录为准。
+2. 将本包中的整个 ClashMode 文件夹复制到该 Skins 目录中。
+   最终结构应为 Skins\ClashMode\ClashMode20.ini 等；不要多套一层文件夹。
+   如果此前装过同名皮肤，先备份旧文件夹，再复制覆盖。
+3. 在 Rainmeter 管理器点击“刷新全部”，展开 ClashMode。
+4. 加载 ClashMode20.ini 或 ClashMode28.ini，按需要选择尺寸。
+   加载 ClashMode.ini 则使用原始的仅显示版本。
+5. 在皮肤右键菜单“设置”中勾选“允许拖动”，取消勾选“点击穿透”。
+   如 Rainmeter 全局禁用了拖动，也需解除全局禁用。
+
+四、日常操作
+
+20 和 28 像素可点击版本：
+左侧深灰色区域（猫图标和 Clash 文字）：按住鼠标左键拖动位置，无需 Ctrl。
+右侧模式色块：短按鼠标左键切换 Global（全局）和 Direct（直连）。
+若当前为 Rule（规则），首次点击切换到 Direct，此后在 Direct 与 Global 间切换。
+右侧长按、移动超过手势容差或移出色块会取消点击，不触发模式切换。
+一次切换尚未处理完成时，后续连续点击会被忽略，等待状态更新后再点即可。
+
+模式颜色：Global 为绿色，Direct 为灰色，Rule 为蓝色，Offline 为灰色。
+徽章定期读取实际模式；在 Clash 界面切换模式后，徽章也会随之更新。
+原始 ClashMode.ini 只有显示功能，没有点击切换功能。
+
+五、常见问题
+
+显示 Offline：检查 Clash 是否运行、外部控制器是否启用，以及端口和密钥是否一致。
+点击后模式不变：确认加载的是 20/28 可点击版，点击的是右侧色块；检查全局快捷键及 Alt+1/Alt+2 设置。
+无法拖动：从左侧深灰色区域开始拖动，检查“允许拖动”和全局拖动设置。
+鼠标没有响应：取消“点击穿透”。
+模式已变但网页仍使用旧连接：检查“切换模式时自动关闭连接”，重新打开网页连接验证。
+仍有问题：在 Rainmeter 管理器“查看日志”中查看相关错误。
+
+六、改用其他端口或密钥、修改源码
+
+本包的控制程序已编译，可直接使用，无需编译环境。
+若使用不同的外部控制器地址或密钥，必须同时修改两处：
+1. Badge.inc 中 MeasureClash 的 URL 和 Header。
+2. ClashBadgeControl.cs 中 ReadMode() 的请求地址和 Authorization 请求头。
+修改 C# 后，运行本包根目录的“重新编译.cmd”，再刷新 Rainmeter 皮肤。
+编译脚本使用 Windows 自带 .NET Framework 的 C# 编译器；如果找不到编译器，会提示失败。
+若只修改 .ini、.inc 或 Lua，无需重新编译 EXE，刷新皮肤即可。
+
+控制程序要求 Alt+1/Alt+2 和 Clash Verge 全局快捷键启用，不能只改快捷键设置而保留此程序不变。
+不同版本的 Clash Verge 可能改变快捷键内部实现，升级后需重新验证。
+本包不包含个人订阅、节点配置、Clash 配置文件或 Rainmeter 的全局位置设置。
+将整个分发文件夹或其 ZIP 发给接收者即可，接收者需要按本说明自行安装和配置。

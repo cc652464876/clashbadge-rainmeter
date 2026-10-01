@@ -1,0 +1,9 @@
+*.pdb
+*.log
+*.tmp
+*.bak
+.DS_Store
+Thumbs.db
+desktop.ini
+bin/
+obj/
