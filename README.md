@@ -2,7 +2,7 @@
 
 一个用于 **Clash Verge Rev** 的 Rainmeter 桌面模式徽章。显示实际代理模式，支持在全局与直连之间切换。
 
-![ClashBadge 外观](docs/preview.png)
+![ClashBadge 桌面效果](docs/desktop-preview.png)
 
 ## 功能
 
